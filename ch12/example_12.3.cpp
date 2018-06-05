@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include <sstream>
+#include <fstream>
 
 using namespace std;
 
@@ -79,8 +80,19 @@ QueryResult TextQuery::query(const string &sought) const
 
 ostream &print(ostream &os, const QueryResult &qr)
 {
-    os << qr.sought << " occurs" << qr.lines->size() << " times" << endl;
+    os << qr.sought << " occurs " << qr.lines->size() << " times" << endl;
     for (auto num : *qr.lines)
         os << "\t(line " << num + 1 << ")" << *(qr.file->begin() + num) << endl;
     return os;
+}
+
+int main(int argc, char** argv)
+{
+    if(argc < 2)
+    {
+        cout << "usage: ./program file" << endl;
+        return 0;
+    }
+    ifstream infile(argv[1]);
+    runQueries(infile);
 }
